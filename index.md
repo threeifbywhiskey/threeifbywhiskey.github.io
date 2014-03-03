@@ -1,7 +1,7 @@
 ---
 layout: page
-title: Hello World!
-tagline: Supporting tagline
+title: 3ifbyw
+tagline: the personal blog of Three If By Whiskey
 ---
 {% include JB/setup %}
 
