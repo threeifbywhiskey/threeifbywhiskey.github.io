@@ -125,7 +125,7 @@ $___ = '' << $-_ * $- - $- << $-_ * ($- + @_) << @__ << @__ # Fizz
        : $. % $-  == __ ? @___        # "Buzz" for 5
        : $.) <<                       # Otherwise, n
        ('' << $- * @_)                # and a newline
-  $. < ($- * @_) ** @_ ? ___[] : _   # Check n against 100
+  $. < ($- * @_) ** @_ ? ___[] : _    # Check n against 100
 })[] # Immediately invoke the lambda.
 {% endhighlight %}
 
