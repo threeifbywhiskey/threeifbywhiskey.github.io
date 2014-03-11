@@ -107,37 +107,37 @@ ___[]
 That was all pretty straightforward, but `$.` is a new one. As mentioned earlier, it's normally used as the current line of standard input; here, though, we've repurposed it as another `0` to play around with; since we need `__` for modulo checks, we can't increment it. And, just like that, we're almost there. We need only now to derive the `100` and figure out a way to get rid of the `puts`. Once again, Ruby finds a way: `$>` is an alias for `$stdout`, and `File`-like objects can be shoveled into. The shoveling isn't *quite* like that for strings, though, as pushing a number will print the number itself. That is, `$> << 97` prints `97`, whereas `$> << ('' << 97)` is how we'd go about printing an `'a'`. Still, that's plenty functionality for us to finish up. Below is presented the full program with a bit more commentary.
 
 {% highlight ruby linenos %}
-_   = $$ / $$ #  1
-__  =  _ -  _ #  0
-@_  =  _ +  _ #  2
-$_  = @_ +  _ #  3
-$-  = @_ + $_ #  5
-$-_ = $- * $_ # 15
+_   = $$  / $$ #  1
+__  =  _  -  _ #  0
+@_  =  _  +  _ #  2
+$_  = @_  +  _ #  3
+$__ = @_  + $_ #  5
+$-_ = $__ * $_ # 15
 
-@__  = '' << $-_ * ($- + $_) + @_ # z
-$___ = '' << $-_ * $- - $- << $-_ * ($- + @_) << @__ << @__ # Fizz
-@___ = '' << $-_ * $- - $_ * $_ << $-_ * ($- + $_) - $_ << @__ << @__ # Buzz
+@__  = '' << $-_ * ($__ + $_) + @_ # z
+$___ = '' << $-_ * $__ - $__ << $-_ * ($__ + @_) << @__ << @__ # Fizz
+@___ = '' << $-_ * $__ - $_ * $_ << $-_ * ($__ + $_) - $_ << @__ << @__ # Buzz
 
 (___ = -> { # the fizzbuzz lambda
   $. += _   # increment n
   $> << ($. % $-_ == __ ? $___ + @___ # "FizzBuzz" if mod-15
        : $. % $_  == __ ? $___        # "Fizz" for 3
-       : $. % $-  == __ ? @___        # "Buzz" for 5
+       : $. % $__ == __ ? @___        # "Buzz" for 5
        : $.) <<                       # Otherwise, n
-       ('' << $- * @_)                # and a newline
-  $. < ($- * @_) ** @_ ? ___[] : _    # Check n against 100
+       ('' << $__ * @_)               # and a newline
+  $. < ($__ * @_) ** @_ ? ___[] : _   # Check n against 100.
 })[] # Immediately invoke the lambda.
 {% endhighlight %}
 
 And that's that. For giggles and visual confirmation, I've presented a compacted version of the program below.
 
 {% highlight ruby %}
-_=$$/$$;__=_-_;@_=_+_;$_=@_+_;$-=@_+$_;$-_=$-*$_
-@__ =''<<$-_*($-+$_)+@_
-$___=''<<$-_*$--$-<<$-_*($-+@_)<<@__<<@__
-@___=''<<$-_*$--$_*$_<<$-_*($-+$_)-$_<<@__<<@__
+_=$$/$$;__=_-_;@_=_+_;$_=@_+_;$__=@_+$_;$-_=$__*$_
+@__=''<<$-_*($__+$_)+@_
+$___=''<<$-_*$__-$__<<$-_*($__+@_)<<@__<<@__
+@___=''<<$-_*$__-$_*$_<<$-_*($__+$_)-$_<<@__<<@__
 (___=->{$.+=_;$><<($.%$-_==__ ?$___+@___:$.%$_==__ ?$___:$.%
-$-==__ ?@___:$.)<<(''<<$-*@_);$.<($-*@_)**@_?___[]:_})[] 
+$__==__ ?@___:$.)<<(''<<$__*@_);$.<($__*@_)**@_?___[]:_})[]
 {% endhighlight %}
 
 I'm surprised Pygments did anything with that at all. Well, I'll sign off here, but I hope you had fun reading. There's [a repository](https://github.com/threeifbywhiskey/narfnme){:target="new"} of similar programs on GitHub if you'd like to take a peek, and if inspiration strikes, feel free to contribute a non-alphanumeric program of your own.
